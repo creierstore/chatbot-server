@@ -4,7 +4,8 @@ const CategoriasRoutes = require('./src/routes/categorias.routes')
 
 const { createBot, createProvider, createFlow, addKeyword} = require("@bot-whatsapp/bot");
 const QRPortalWeb = require("@bot-whatsapp/portal");
-const BaileysProvider = require("@bot-whatsapp/provider/baileys");
+// const BaileysProvider = require("@bot-whatsapp/provider/baileys");
+const VenomProvider = require('@bot-whatsapp/provider/venom')
 const MockAdapter = require("@bot-whatsapp/database/mock");
 
 // FLOWS DE CONVERSACION
@@ -126,7 +127,7 @@ const getProductos = async () => {
         flowHablarVendedor,
         flowInicio
       ]);
-    const adapterProvider = createProvider(BaileysProvider);
+    const adapterProvider = createProvider(VenomProvider);
   
     createBot({
       flow: adapterFlow,

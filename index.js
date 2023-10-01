@@ -1,11 +1,11 @@
 const app = require("./app.js");
-const sequelize  = require("./database/database.js");
+const sequelize = require("./src/database/database.js");
 // const Producto = require("./models/producto.js")
 // const Categoria = require("./models/categoria.js")
 
 async function main() {
   try {
-    await sequelize.sync();
+    await sequelize .sync();
     // await sequelize.sync({force: true});
     console.log("Connection has been established successfully.");
     app.listen(4000);
