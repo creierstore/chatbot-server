@@ -1,14 +1,19 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
 
-const flowUbicacion = addKeyword(["ubicacion", "donde estan","ubicados", "local"]).addAnswer(
-  "estamos ubicados en tu corazon",
-  null,
-  async (ctx) => {
-    console.log(ctx);
-    const numeroDeWhatsapp = ctx.from;
-    const mensajeRecibido = ctx.body;
-  }
-);
+const flowBotones = addKeyword('botones').addAnswer(["Estos son los botones"], {
+  delay: 3000,
+});
+
+const flowUbicacion = addKeyword([
+  "ubicacion",
+  "donde estan",
+  "ubicados",
+  "local",
+]).addAnswer("estamos ubicados en tu corazon", null, async (ctx) => {
+  console.log(ctx);
+  const numeroDeWhatsapp = ctx.from;
+  const mensajeRecibido = ctx.body;
+});
 
 const flowProductos = addKeyword(["tienen", "tenes"]).addAnswer(
   "Esperame un momento voy a verificar",
@@ -29,10 +34,11 @@ const flowConsulta = addKeyword(["pregunta", "consulta"]).addAnswer(
     const numeroDeWhatsapp = ctx.from;
     const mensajeRecibido = ctx.body;
   },
-  [flowProductos, flowUbicacion]
+  [flowProductos, flowUbicacion, flowBotones]
 );
 
 module.exports = {
   flowConsulta,
-  flowUbicacion
+  flowUbicacion,
+  flowBotones
 };

@@ -1,4 +1,4 @@
-const { addKeyword, addAnswer } = require("@bot-whatsapp/bot");
+const { addKeyword } = require("@bot-whatsapp/bot");
 
 const axios = require("axios");
 
@@ -120,58 +120,6 @@ const flowRecepcionImagen = addKeyword([
   null,
   [flowDelivery, flowRetira]
 );
-const flowEfectivo = addKeyword(["efectivo"]).addAnswer(
-  ["Entro en flowEfectivo", "Ok, puedes abonar al momento de la entrega!"],
-  null,
-  null,
-  [flowDespedidaVenta]
-);
-const flowPagoOnline = addKeyword(["online"]).addAnswer(
-  [
-    "Entro en flowPagoOnline",
-    "Puedes pagar con el siguiente link: ",
-    "https://www.pagopar.com/pagos/b66b96d645d47ea3db0dd9ce35f26ba578e4c6c20ec463599253da05bd1b443e",
-  ],
-  null,
-  null,
-  []
-);
-
-const flowTransferencia = addKeyword(["transferencia"])
-  .addAnswer(
-    [
-      "Entro en flowTransferencia",
-      "Ok, te facilito mis datos bancarios, aguardare tu comprobante de transferecia, gracias!",
-    ],
-    null,
-    null,
-    [flowRecepcionImagen]
-  )
-  .addAnswer(
-    `
-Estos son los Datos de Mi Cuenta Eko:
-Titular
-CARLOS ISAAC CASCO LEGUIZAMON
-
-Banco
-Familiar
-
-Nº de Teléfono
-+595975174920
-
-Nº de Cédula
-4880887
-
-N° de cuenta para transferencias desde Banco Familiar
-81-76220
-
-N° de cuenta para transferencias desde otros bancos
-8176220
-`,
-    null,
-    null
-  );
-
 // const enviarProducto = addKeyword('mouse').addAnswer(
 //   ['Claro, ¡voy a buscar los productos para ti!'],
 //   null,
@@ -283,39 +231,63 @@ const flowBuscarProducto = addKeyword(["pepito", "Producto"]).addAnswer(
 ).addAnswer('esta es la imagen del producto', async (ctx, { flowDynamic, gotoFlow, state }) => {
   console.log('the contextooo',GLOBAL_CONTEXT);
   flowDynamic({media: GLOBAL_CONTEXT[0].image})
-
-  // gotoFlow(flowSendImage);
 },)
 ;
-// .addAnswer(['Imagen monitor'], { media: `https://creier-store.myshopify.com/cdn/shop/products/81QpkIctqPL._AC_SX679.jpg`}, null)
-// .addAnswer(
-//     ['¿Cuántos unidades del producto te gustaría pedir?'],
-//     { capture: true, buttons: [{ body: '❌ Cancelar pedido' }] },
-//     async (ctx, { flowDynamic, endFlow }) => {
-//         if (ctx.body == '❌ Cancelar pedido')
-//             return endFlow({ body: '❌ Pedido cancelado ❌' });
 
-//         const cantidadPedido = ctx.body;
+const flowRecepcion = addKeyword(["Hola, este es mi pedido", "pedido",])
+.addAnswer([
+  "Entro en flowRecepcion",
+  "Hola, muy buena eleccion!",
+  "Te gustaria pagar en efectivo, online o por transferencia bancaria?"],
+  null,
+  null,    
+  );
 
-//         // Aquí puedes procesar el pedido y realizar acciones adicionales si es necesario
-//         // Por ejemplo, enviar la orden a un sistema de gestión de pedidos
 
-//         return flowDynamic(`Has pedido ${cantidadPedido} unidades del producto "${productoPedido}". ¡Gracias!`);
+// const flowRecepcion = addKeyword(["Hola, este es mi pedido", "pedido",]).addAnswer(["Entro en flowRecepcion","Hola, muy buena eleccion!","Te gustaria pagar en efectivo, online o por transferencia bancaria?",],
+//     null,
+//     async (ctx, {flowDynamic}) => {
+//       const mensajesDB = async () => {
+//         const products = await getProductos();
+//         return products
 //     }
-// );
+//     return flowDynamic(mensajesDB())
+//   }).addAnswer(['Claro, ¡voy a buscar los productos para ti!'],null,
+//     async (ctx, { flowDynamic, endFlow }) => {
+//         try {
+//             const response = await axios.get('http://localhost:4000/productos');
+//             const productos = response.data;
+            
+//             if (productos.length === 0) {
+//                 return flowDynamic('Lo siento, no hay productos disponibles en este momento.');
+//             } else {
+//                 // Aquí puedes formatear la lista de productos como desees
+//                 const formattedProductos = productos.map((producto, index) => {
+//                     return `${index + 1}. ${producto.title} - Precio: ${producto.price}`;
+//                 }).join('\n');
+                
+//                 return flowDynamic(`Aquí tienes algunos de nuestros productos:\n${formattedProductos}`);
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             return flowDynamic('Lo siento, hubo un error al obtener los productos. Por favor, inténtalo más tarde.');
+//         }
+//     }
+//   );
 
 module.exports = {
-  flowInicio,
-  flowWelcome,
-  flowProductos,
-  flowInicial,
-  flowImagenProducto,
-  flowDespedidaVenta,
-  flowRecepcionImagen,
-  flowEfectivo,
-  flowPagoOnline,
-  flowTransferencia,
-  flowDelivery,
-  flowRetira,
-  flowBuscarProducto,
+  // flowInicio,
+  // flowWelcome,
+  // flowProductos,
+  // flowInicial,
+  // flowImagenProducto,
+  // flowDespedidaVenta,
+  // flowRecepcionImagen,
+  // flowEfectivo,
+  // flowPagoOnline,
+  // flowTransferencia,
+  // flowDelivery,
+  // flowRetira,
+  // flowBuscarProducto,
+  flowRecepcion
 };
