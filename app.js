@@ -10,7 +10,7 @@ const MockAdapter = require("@bot-whatsapp/database/mock");
 // FLOWS DE CONVERSACION
 const { flowInicio }  = require("./src/flows/flowOrder");
 const { flowBienvenida } = require("./src/flows/flowWelcome");
-const { flowConsulta } = require("./src/flows/flowQuery");
+const { flowConsulta, flowUbicacion } = require("./src/flows/flowQuery");
 const { flowHablarVendedor } = require("./src/flows/flowAgent");
 
 const axios = require("axios");
@@ -122,9 +122,10 @@ const getProductos = async () => {
     const adapterFlow = createFlow(
       [
         flowBienvenida, 
-        flowConsulta, 
+        flowConsulta, flowUbicacion,
         flowHablarVendedor,
-        flowInicio
+        flowInicio,
+        flowRecepcion
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   
