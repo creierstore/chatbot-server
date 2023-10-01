@@ -2,6 +2,7 @@ const app = require("./app.js");
 const sequelize = require("./src/database/database.js");
 // const Producto = require("./models/producto.js")
 // const Categoria = require("./models/categoria.js")
+require("dotenv").config();
 
 async function main() {
   try {

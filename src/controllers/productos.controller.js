@@ -19,6 +19,7 @@ const getProducto = async (req, res) => {
   try {
     const data = await Producto.findOne({
       where: {
+        
         id,
       },
     });
