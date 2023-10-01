@@ -1,4 +1,6 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
+const { promptProductos, sendPrompt } = require("../config/openai");
+const sequelize = require("../database/database");
 
 const flowBotones = addKeyword('botones').addAnswer(["Estos son los botones"], {
   delay: 3000,
@@ -25,14 +27,33 @@ const flowProductos = addKeyword(["tienen", "tenes"]).addAnswer(
   }
 );
 
+let sql;
+
 const flowConsulta = addKeyword(["pregunta", "consulta"]).addAnswer(
-  "Si, cual es tu consulta",
+  `Si, cual es tu consulta
+  Este es un ejemplo de pregunta:
+  - Tienen monitores de la marca Samsung`,
   // TODO: HACER CONSULTA A BASE DE DATOS
   null,
   async (ctx) => {
     console.log(ctx);
     const numeroDeWhatsapp = ctx.from;
     const mensajeRecibido = ctx.body;
+
+    try {
+      const consultaSQL = await sendPrompt(promptProductos(mensajeRecibido))
+      console.log('valorSQL', consultaSQL.choices[0].message.content);
+  
+      sql = consultaSQL.choices[0].message.content
+  
+      const respuestaBD = await sequelize.query(sql);
+  
+      console.log(respuestaBD);
+  
+    } catch (error) {
+      console.log(error.message);      
+    }
+
   },
   [flowProductos, flowUbicacion, flowBotones]
 );
