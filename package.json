@@ -8,17 +8,18 @@
     "start": "node --watch app.js"
   },
   "keywords": [],
-  "author": "", 
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "morgan": "^1.10.0",
+    "openai": "^4.11.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.33.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
     "@bot-whatsapp/bot": "latest",
     "@bot-whatsapp/cli": "latest",
     "@bot-whatsapp/database": "latest",
@@ -26,6 +27,7 @@
     "@bot-whatsapp/provider": "latest",
     "@whiskeysockets/baileys": "^6.4.0",
     "axios": "^1.5.1",
+    "nodemon": "^3.0.1",
     "wa-sticker-formatter": "4.3.2"
   }
 }
