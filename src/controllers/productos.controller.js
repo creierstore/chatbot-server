@@ -54,7 +54,7 @@ const createProducto = async (req, res) => {
 
 const updateProducto = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
 
     const { id } = req.params;
     // const { title, price, description, image, categoriaId } = req.body;
@@ -77,7 +77,7 @@ const updateProducto = async (req, res) => {
 
 const deleteProducto = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
 
     const { id } = req.params;
     await Producto.destroy({
@@ -95,7 +95,7 @@ const deleteProducto = async (req, res) => {
 const buscarProductoPorString = async (req, res) => {
   const searchString = req.params.q;
 
-  console.log('valor buscado',searchString);
+  // console.log('valor buscado',searchString);
 
   try {
     const query = `

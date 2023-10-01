@@ -36,7 +36,7 @@ const flowConsulta = addKeyword(["pregunta", "consulta"]).addAnswer(
   // TODO: HACER CONSULTA A BASE DE DATOS
   null,
   async (ctx) => {
-    console.log(ctx);
+    console.log('USER MESSAGE', ctx.body);
     const numeroDeWhatsapp = ctx.from;
     const mensajeRecibido = ctx.body;
 
