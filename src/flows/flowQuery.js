@@ -1,4 +1,4 @@
-const { addKeyword } = require("@bot-whatsapp/bot");
+const { addKeyword, addAnswer } = require("@bot-whatsapp/bot");
 const { promptProductos, sendPrompt } = require("../config/openai");
 const sequelize = require("../database/database");
 
@@ -25,32 +25,42 @@ const flowProductos = addKeyword(["tienen", "tenes"]).addAnswer(
     const numeroDeWhatsapp = ctx.from;
     const mensajeRecibido = ctx.body;
   }
-);
+  );
 
-let sql;
-
-const flowConsulta = addKeyword(["pregunta", "consulta"]).addAnswer(
-  `Si, cual es tu consulta
-  Este es un ejemplo de pregunta:
-  - Tienen monitores de la marca Samsung`,
-  // TODO: HACER CONSULTA A BASE DE DATOS
-  null,
-  async (ctx) => {
-    console.log('USER MESSAGE', ctx.body);
+  const flowConsulta = addKeyword(["pregunta", "consulta"]).addAnswer(
+    `Si, cual es tu consulta
+    Este es un ejemplo de pregunta:
+    - Tienen monitores de la marca Samsung`,
+    // TODO: HACER CONSULTA A BASE DE DATOS
+    null,
+    async (ctx, { flowDynamic,gotoFlow, state }) => {
+      // console.log('USER MESSAGE', ctx.body);
     const numeroDeWhatsapp = ctx.from;
     const mensajeRecibido = ctx.body;
-
+    
     try {
       const consultaSQL = await sendPrompt(promptProductos(mensajeRecibido))
-      console.log('valorSQL', consultaSQL.choices[0].message.content);
+      // console.log('valorSQL', consultaSQL.choices[0].message.content);
   
-      sql = consultaSQL.choices[0].message.content
+      let sql = consultaSQL.choices[0].message.content
   
       const respuestaBD = await sequelize.query(sql);
   
-      console.log(respuestaBD);
-  
+      // console.log(respuestaBD);
+      // const objetoLimpio =  JSON.stringify(respuestaBD[0].slice(0,4),0,2);
+
+      const productos =  respuestaBD[0].slice(0,5);
+
+      for (const producto of productos) {
+        const { title, price } = producto;
+        // console.log(`Título: ${title}, Precio: ${price}`);
+        const mensajeEnviar = `${title}, Precio: ${price}`
+        flowDynamic(mensajeEnviar)
+      }
+      
+      
     } catch (error) {
+      flowDynamic('Disculpa ahora mismo no puedo responderte')
       console.log(error.message);      
     }
 
