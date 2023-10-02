@@ -51,6 +51,7 @@ const sendPrompt = async (prompt) => {
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-4",
+      // model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
       max_tokens: 50, // Ajusta este valor según tus necesidades
       stop: "\n", // Detiene la respuesta en un salto de línea

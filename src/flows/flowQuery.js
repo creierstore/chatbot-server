@@ -54,7 +54,7 @@ const flowProductos = addKeyword(["tienen", "tenes"]).addAnswer(
       for (const producto of productos) {
         const { title, price } = producto;
         // console.log(`Título: ${title}, Precio: ${price}`);
-        const mensajeEnviar = `${title}, Precio: ${price}`
+        const mensajeEnviar = `*${title}*, *Precio:* ${price}`
         flowDynamic(mensajeEnviar)
       }
       
