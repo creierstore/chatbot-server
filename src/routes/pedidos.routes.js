@@ -1,7 +1,7 @@
 const Router = require("express");
 const {
   getPedidos,
-  // createPedido,
+  createPedido,
   updatePedido,
   deletePedido,
   getPedido,
@@ -11,7 +11,7 @@ const {
 const router = Router();
 
 router.get("/pedidos", getPedidos);
-// router.post("/pedidos", createPedido);
+router.post("/pedidos", createPedido);
 router.put("/pedidos/:id", updatePedido);
 router.delete("/pedidos/:id", deletePedido);
 router.get("/pedidos/:id", getPedido);

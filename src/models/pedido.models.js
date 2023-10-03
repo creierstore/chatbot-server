@@ -1,18 +1,12 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database.js");
+const PedidoDetalle = require("./pedido-detalle.models.js");
 
 const Pedido = sequelize.define("pedidos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-  },
-  cliente: {
-    type: DataTypes.STRING,
-  },
-  fechaPedido: {
-    type: DataTypes.DATE,
-    allowNull: false,
   },
   direccionEnvio: {
     type: DataTypes.STRING,
@@ -22,5 +16,9 @@ const Pedido = sequelize.define("pedidos", {
     defaultValue: "Pendiente",
   },
 });
+
+Pedido.hasMany(PedidoDetalle, { as: "detalles", foreignKey: "pedidoId" });
+PedidoDetalle.belongsTo(Pedido, { foreignKey: "pedidoId" });
+
 
 module.exports = Pedido;

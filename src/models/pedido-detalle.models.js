@@ -18,11 +18,7 @@ const PedidoDetalle = sequelize.define("pedido_detalles", {
   precioTotal: {
     type: DataTypes.FLOAT,
     allowNull: false,
-  },
+  }
 });
-
-Pedido.hasMany(PedidoDetalle, { as: "detalles", foreignKey: "pedidoId" });
-PedidoDetalle.belongsTo(Pedido, { foreignKey: "pedidoId" });
-
 
 module.exports = PedidoDetalle;

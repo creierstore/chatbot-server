@@ -6,7 +6,7 @@ require("dotenv").config();
 
 async function main() {
   try {
-    await sequelize .sync();
+    await sequelize.sync();
     // await sequelize.sync({force: true});
     console.log("Connection has been established successfully.");
     app.listen(4000);

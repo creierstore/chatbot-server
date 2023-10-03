@@ -1,5 +1,4 @@
-const Pedido = require("../models/producto.models");
-
+const Pedido = require("../models/pedido.models");
 const sequelize  = require("../database/database");
 
 
@@ -32,25 +31,24 @@ const getPedido = async (req, res) => {
   }
 };
 
-// const createPedido = async (req, res) => {
-//   const { title, price, description, image, categoriaId } = req.body;
+const createPedido = async (req, res) => {
+  const { cliente, fechaPedido, direccionEnvio, estado, } = req.body;
 
-//   try {
-//     const newData = await Pedido.create({
-//       title,
-//       price,
-//       description,
-//       image,
-//       categoriaId,
-//     });
+  try {
+    const newData = await Pedido.create({
+      cliente,
+      fechaPedido,
+      direccionEnvio,
+      estado,
+    });
     
 
-//     // console.log({newPedido});
-//     res.json(newData);
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
+    // console.log({newPedido});
+    res.json(newData);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 const updatePedido = async (req, res) => {
   try {
@@ -120,7 +118,7 @@ const deletePedido = async (req, res) => {
 module.exports = {
   getPedidos,
   getPedido,
-  // createPedido,
+  createPedido,
   updatePedido,
   deletePedido,
   // buscarPedidoPorString

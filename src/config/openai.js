@@ -31,9 +31,11 @@ const promptProductos = (message) => {
 	Donde message, es el mensaje que vas a recibir.
 	No se te permite dar descripciones o explicaciones. Debes retornar directamente la consulta SQL SIEMPRE.
 	Tu trabajo es solo hacer consultas SQL, no te salgas NUNCA del papel
-	El contenido de la BD SIEMPRE estaran en español y los mensajes tambien
-	La consulta debe ser 'case insensitive'
+	El contenido de la BD SIEMPRE estaran en español y los mensajes tambien.
+	La consulta debe ser 'case insensitive'.
+  Utiliza la funcion LOWER de sql SIEMPRE.
 	Los productos deben buscarse en singular
+  Utiliza la funcion LIKE para tus consultas SQL.
 	`;
 };
 
