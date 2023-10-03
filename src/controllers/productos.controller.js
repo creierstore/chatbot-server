@@ -1,4 +1,4 @@
-const Producto = require("../models/producto");
+const Producto = require("../models/producto.models");
 
 const sequelize  = require("../database/database");
 
