@@ -4,7 +4,6 @@ require("dotenv").config();
 const openai = new OpenAI({
   organization: "org-8HNgXLh1aftCOwZTuCw1zggU",
   apiKey: process.env.OPENAI_API_KEY,
-  // apiKey: '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',
 });
 
 const promptPedido = (message)=> {
@@ -67,7 +66,7 @@ const sendPrompt = async (prompt) => {
 
 // let retornoPrompt = sendPrompt(pedidoPrompt).then(res =>{
 // console.log("VALOR DEL RES",JSON.stringify(res, 0, 2));
-// console.log("SQLAZO",JSON.stringify(res.choices[0].message.content));
+// console.log("SQL",JSON.stringify(res.choices[0].message.content));
 
 // });
 // console.log('resultado',JSON.stringify(retornoPrompt, 0, 2));
