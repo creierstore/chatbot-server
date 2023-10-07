@@ -11,7 +11,7 @@ const { flujoEnvio } = require("./flujoEnvio");
 
 const keywords = ["hola", "buenas"];
 const response = ["Bienvenidos a Versol Informática, en que te podemos ayudar?"];
-const flujos = [flujoEnvio]
+const flujos = [flujoEnvio];
 
 // const flowBienvenida = addKeyword(['hola', 'buenas']).addAnswer(
 //     "Bienvenidos a X, en que te puedo ayudar?",
