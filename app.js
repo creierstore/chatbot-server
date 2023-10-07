@@ -19,6 +19,7 @@ const MockAdapter = require("@bot-whatsapp/database/mock");
 // const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
 
 const { flujoDespedida } = require("./src/flows/flujoDespedida");
+const { flujoPrincipal } = require("./src/flows/flujoPrincipal");
 
 const axios = require("axios");
 
@@ -70,6 +71,8 @@ const getProductos = async () => {
     const adapterDB = new MockAdapter();
     const adapterFlow = createFlow(
       [
+        flujoPrincipal,
+        flujoDespedida
         // flowBienvenida, 
         // flowConsulta,
         // flowHablarVendedor,
@@ -78,7 +81,6 @@ const getProductos = async () => {
         // flowPagoOnline,
         // flowEfectivo,
         // flowTransferencia
-        flujoDespedida
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   

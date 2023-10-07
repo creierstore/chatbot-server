@@ -27,6 +27,7 @@ const flujoPrincipal = addKeyword(keywords).addAnswer(response, null, null, fluj
   );
 
 module.exports = {
-// flowBienvenida
+// flowBienvenida,
+flujoPrincipal
 };
   
