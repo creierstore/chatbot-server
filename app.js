@@ -11,12 +11,14 @@ const BaileysProvider = require("@bot-whatsapp/provider/baileys");
 // const VenomProvider = require('@bot-whatsapp/provider/venom')
 const MockAdapter = require("@bot-whatsapp/database/mock");
 
-// FLOWS DE CONVERSACION
-const { flowRecepcion }  = require("./src/flows/flowOrder");
-const { flowBienvenida } = require("./src/flows/flowWelcome");
-const { flowConsulta, flowUbicacion, flowBotones } = require("./src/flows/flowQuery");
-const { flowHablarVendedor } = require("./src/flows/flowAgent");
-const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
+// // FLOWS DE CONVERSACION
+// const { flowRecepcion }  = require("./src/flows/flowOrder");
+// const { flowBienvenida } = require("./src/flows/flowWelcome");
+// const { flowConsulta, flowUbicacion, flowBotones } = require("./src/flows/flowQuery");
+// const { flowHablarVendedor } = require("./src/flows/flowAgent");
+// const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
+
+const { flujoDespedida } = require("./src/flows/flujoDespedida");
 
 const axios = require("axios");
 
@@ -68,14 +70,15 @@ const getProductos = async () => {
     const adapterDB = new MockAdapter();
     const adapterFlow = createFlow(
       [
-        flowBienvenida, 
-        flowConsulta,
-        flowHablarVendedor,
-        flowRecepcion,
-        flowObtenerProductos,
-        flowPagoOnline,
-        flowEfectivo,
-        flowTransferencia
+        // flowBienvenida, 
+        // flowConsulta,
+        // flowHablarVendedor,
+        // flowRecepcion,
+        // flowObtenerProductos,
+        // flowPagoOnline,
+        // flowEfectivo,
+        // flowTransferencia
+        flujoDespedida
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   

@@ -1,5 +1,16 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
 
+// Pagos
+// Ubicacion
+// Envio 
+// Despedida
+// Encuesta
+// Carrito
+// Respuesta
+
+// Importar todo
+
+
 const axios = require("axios");
 
 const flowWelcome = addKeyword("hola").addAnswer(

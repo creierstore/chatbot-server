@@ -1,5 +1,11 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
 
+// Ubicacion
+// Envio
+// Despedida
+// Respuesta
+
+
 // FLOWS DE PAGO
 const flowPagoOnline = addKeyword("online","Onlie","Onnline","Onilne","Onliine","Omline").addAnswer(
   [

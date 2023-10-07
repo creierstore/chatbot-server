@@ -1,0 +1,8 @@
+
+
+// Pagos
+// Ubicacion
+// Respuesta
+
+
+carrito = [];
