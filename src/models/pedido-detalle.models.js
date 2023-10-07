@@ -18,7 +18,10 @@ const PedidoDetalle = sequelize.define("pedido_detalles", {
   precioTotal: {
     type: DataTypes.FLOAT,
     allowNull: false,
-  }
+  },
+  productoId: {
+    type: DataTypes.INTEGER,
+  },
 });
 
 module.exports = PedidoDetalle;

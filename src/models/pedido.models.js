@@ -15,6 +15,10 @@ const Pedido = sequelize.define("pedidos", {
     type: DataTypes.STRING,
     defaultValue: "Pendiente",
   },
+  clienteId: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
 });
 
 Pedido.hasMany(PedidoDetalle, { as: "detalles", foreignKey: "pedidoId" });
