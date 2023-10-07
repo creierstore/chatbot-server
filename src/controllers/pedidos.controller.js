@@ -1,6 +1,7 @@
 const Pedido = require("../models/pedido.models");
-const sequelize  = require("../database/database");
-
+const Cliente = require("../models/cliente.models");
+const PedidoDetalle = require("../models/pedido-detalle.models");
+const sequelize = require("../database/database");
 
 const getPedidos = async (req, res) => {
   try {
@@ -18,7 +19,6 @@ const getPedido = async (req, res) => {
   try {
     const data = await Pedido.findOne({
       where: {
-        
         id,
       },
     });
@@ -31,22 +31,33 @@ const getPedido = async (req, res) => {
   }
 };
 
-const createPedido = async (req, res) => {
-  const { cliente, fechaPedido, direccionEnvio, estado, } = req.body;
+const createPedido = async (clienteData, pedidoData, detallesData) => {
+  let transaction = await sequelize.transaction();
+  // const { cliente, fechaPedido, direccionEnvio, estado, } = req.body;
 
   try {
-    const newData = await Pedido.create({
-      cliente,
-      fechaPedido,
-      direccionEnvio,
-      estado,
-    });
-    
+    console.log('VALORES TO SAVE PEDIDO',clienteData, pedidoData, detallesData);
+    pedidoData.clienteId = clienteData.id; // Asigna el clienteId al pedidoData
+    const pedido = await Pedido.create(pedidoData, { transaction });
 
-    // console.log({newPedido});
-    res.json(newData);
+    // Asigna el pedidoId a cada detalle y luego inserta los detalles
+    detallesData.forEach((detalle) => {
+      detalle.pedidoId = pedido.id;
+    });
+    await PedidoDetalle.bulkCreate(detallesData, { transaction });
+
+    // Confirma la transacción
+    await transaction.commit();
+
+    //  res.json({pedido, cliente});
+    return { pedido, cliente }; // Retorna el pedido y e
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    // Si ocurre algún error, realiza un rollback de la transacción
+    if (transaction) {
+      await transaction.rollback();
+    }
+    throw error;
+    // return res.status(500).json({ message: error.message });
   }
 };
 
@@ -59,7 +70,7 @@ const updatePedido = async (req, res) => {
 
     const data = await Pedido.findByPk(id);
     data.set(req.body);
-    
+
     // data.title = title;
     // data.price = price;
     // data.description = description;
@@ -90,36 +101,10 @@ const deletePedido = async (req, res) => {
   }
 };
 
-// const buscarPedidoPorString = async (req, res) => {
-//   const searchString = req.params.q;
-
-//   // console.log('valor buscado',searchString);
-
-//   try {
-//     const query = `
-//       SELECT * FROM pedidos WHERE LOWER(title) LIKE '${searchString.toLowerCase()}' OR LOWER(description) LIKE '${searchString.toLowerCase()}'
-//     `;
-
-//     const data = await sequelize.query(query, {
-//       type: sequelize.QueryTypes.SELECT,
-//     });
-    
-
-//     if (data.length === 0) {
-//       return res.status(404).json({ message: "No se encontraron pedidos que coincidan con la búsqueda." });
-//     }
-
-//     res.json(data);
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
-
 module.exports = {
   getPedidos,
   getPedido,
   createPedido,
   updatePedido,
   deletePedido,
-  // buscarPedidoPorString
 };
