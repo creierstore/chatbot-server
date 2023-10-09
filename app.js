@@ -10,6 +10,7 @@ const QRPortalWeb = require("@bot-whatsapp/portal");
 const BaileysProvider = require("@bot-whatsapp/provider/baileys");
 // const VenomProvider = require('@bot-whatsapp/provider/venom')
 const MockAdapter = require("@bot-whatsapp/database/mock");
+const axios = require("axios");
 
 // // FLOWS DE CONVERSACION
 // const { flowRecepcion }  = require("./src/flows/flowOrder");
@@ -20,8 +21,16 @@ const MockAdapter = require("@bot-whatsapp/database/mock");
 
 const { flujoDespedida } = require("./src/flows/flujoDespedida");
 const { flujoPrincipal } = require("./src/flows/flujoPrincipal");
+const { flujoRespuesta } = require("./src/flows/flujoRespuesta")
+const { flujoConsulta } = require("./src/flows/flujoConsulta")
+const { flujoPagos } = require("./src/flows/flujoPagos")
+const { flujoCarrito } = require("./src/flows/flujoCarrito")
+const { flujoEncuesta } = require("./src/flows/flujoEncuesta")
+const { flujoEnvio } = require("./src/flows/flujoEnvio")
+const { flujoPedido } = require("./src/flows/flujoPedido")
+const { flujoServicios } = require("./src/flows/flujoServicios")
 
-const axios = require("axios");
+const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
 
 BASE_URL = "http://localhost:4000";
 axios.defaults.baseURL = BASE_URL;
@@ -71,16 +80,17 @@ const getProductos = async () => {
     const adapterDB = new MockAdapter();
     const adapterFlow = createFlow(
       [
+        flujoCarrito,
+        flujoConsulta,
+        flujoDespedida,
+        flujoEncuesta,
+        flujoEnvio,
+        flujoPagos,
+        flujoPedido,
         flujoPrincipal,
-        flujoDespedida
-        // flowBienvenida, 
-        // flowConsulta,
-        // flowHablarVendedor,
-        // flowRecepcion,
-        // flowObtenerProductos,
-        // flowPagoOnline,
-        // flowEfectivo,
-        // flowTransferencia
+        flujoRespuesta,
+        flujoServicios,
+        flujoUbicacion,
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   

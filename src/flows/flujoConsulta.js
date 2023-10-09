@@ -10,7 +10,6 @@
 
 const { addKeyword } = require("@bot-whatsapp/bot");
 const { flujoDespedida } = require("./flujoDespedida");
-const { flujoConsulta } = require("./flujoConsulta");
 const { flujoRespuesta } = require("./flujoRespuesta");
 const { flujoEnvio } = require("./flujoEnvio");
 const { flujoUbicacion } = require("./flujoUbicacion");
