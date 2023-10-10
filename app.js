@@ -19,18 +19,18 @@ const axios = require("axios");
 // const { flowHablarVendedor } = require("./src/flows/flowAgent");
 // const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
 
-const { flujoDespedida } = require("./src/flows/flujoDespedida");
-const { flujoPrincipal } = require("./src/flows/flujoPrincipal");
-const { flujoRespuesta } = require("./src/flows/flujoRespuesta")
-const { flujoConsulta } = require("./src/flows/flujoConsulta")
-const { flujoPagos } = require("./src/flows/flujoPagos")
-const { flujoCarrito } = require("./src/flows/flujoCarrito")
-const { flujoEncuesta } = require("./src/flows/flujoEncuesta")
-const { flujoEnvio } = require("./src/flows/flujoEnvio")
-const { flujoPedido } = require("./src/flows/flujoPedido")
-const { flujoServicios } = require("./src/flows/flujoServicios")
+// const { flujoDespedida } = require("./src/flows/flujoDespedida");
+// const { flujoRespuesta } = require("./src/flows/flujoRespuesta")
+// const { flujoConsulta } = require("./src/flows/flujoConsulta")
+// const { flujoPagos } = require("./src/flows/flujoPagos")
+// const { flujoCarrito } = require("./src/flows/flujoCarrito")
+// const { flujoEncuesta } = require("./src/flows/flujoEncuesta")
+// const { flujoEnvio } = require("./src/flows/flujoEnvio")
+// const { flujoPedido } = require("./src/flows/flujoPedido")
+// const { flujoServicios } = require("./src/flows/flujoServicios")
 
-const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
+// const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
+const { flujoPrincipal } = require("./src/flows/flujoPrincipal");
 
 BASE_URL = "http://localhost:4000";
 axios.defaults.baseURL = BASE_URL;
@@ -80,17 +80,17 @@ const getProductos = async () => {
     const adapterDB = new MockAdapter();
     const adapterFlow = createFlow(
       [
-        flujoCarrito,
-        flujoConsulta,
-        flujoDespedida,
-        flujoEncuesta,
-        flujoEnvio,
-        flujoPagos,
-        flujoPedido,
+        // flujoCarrito,
+        // flujoConsulta,
+        // flujoDespedida,
+        // flujoEncuesta,
+        // flujoEnvio,
+        // flujoPagos,
+        // flujoPedido,
+        // flujoRespuesta,
+        // flujoServicios,
+        // flujoUbicacion,
         flujoPrincipal,
-        flujoRespuesta,
-        flujoServicios,
-        flujoUbicacion,
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   
