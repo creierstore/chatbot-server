@@ -7,9 +7,8 @@ const openai = new OpenAI({
 });
 
 const promptPedido = (message)=> {
-
 	return `
-  Al final de este mensaje habrá un string con un pedido de producto
+Al final de este mensaje habrá un string con un pedido de producto
 Tu trabajo es extraer el nombre y la cantidad.
 Devolverás un objeto en formato JSON con esas propiedades.
 Ejemplo: Quiero un monitor samsung HNX30 de 32"

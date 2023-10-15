@@ -6,6 +6,8 @@ const { flujoDespedida } = require("./flujoDespedida");
 const { flujoRespuesta } = require("./flujoRespuesta");
 const { flujoPedido } = require("./flujoPedido");
 
+
+
 // Flujo Consulta
 // Flujo Pedido
 // Flujo Servicios
@@ -14,10 +16,27 @@ const { flujoPedido } = require("./flujoPedido");
 
 // Importar todo
 
+const flowString = addKeyword('xxx')
+  .addAnswer('Indica cual es tu email', null, (ctx, { fallBack }) => {
+    if (!ctx.body.includes('@')) {
+      return fallBack()
+    } else {
+      // Lógica para procesar el correo electrónico del usuario
+    }
+  })
+
+
+
+
+
 const keywords = [
+	"alo",
 	"hola",
 	"buenas",
+	"Nanoches",
+	"aloha",
 	"buenas tardes",
+	"buenas noches",
 	"buenos dias",
 	"buenos días",
 	"buen dia",
@@ -68,11 +87,12 @@ const flujos = [
 	flujoDespedida,
 	flujoRespuesta,
 	flujoPedido,
+	flowString
 ];
 
 // const flowBienvenida = addKeyword(['hola', 'buenas']).addAnswer(
 //     "Bienvenidos a X, en que te puedo ayudar?",
-//     null,
+//     {delay: 3000},
 //     async (ctx) => {
 //       console.log(ctx);
 //       const numeroDeWhatsapp = ctx.from;
@@ -80,11 +100,17 @@ const flujos = [
 //     }
 //   );
 
-const flujoPrincipal = addKeyword(keywords).addAnswer(response, null, null, flujos
-  );
+const flujoSaludo = addKeyword(keywords).addAnswer(response, {delay: 3000}, 
+	async (ctx, { flowDynamic, gotoFlow, state }) => {
+		console.log('USER MESSAGE', ctx);
+		const numeroDeWhatsapp = ctx.from;
+		const mensajeRecibido = ctx.body;
+	}, flujos);
 
+
+	
 module.exports = {
 // flowBienvenida,
-flujoPrincipal
+flujoSaludo
 };
   
