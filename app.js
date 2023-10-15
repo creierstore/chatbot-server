@@ -4,6 +4,7 @@ const CategoriasRoutes = require('./src/routes/categorias.routes')
 const ClientesRoutes = require('./src/routes/clientes.routes')
 const PedidosRoutes = require('./src/routes/pedidos.routes')
 const PedidosDetallesRoutes = require('./src/routes/pedido-detalles.routes')
+const whatsappRoute = require('./src/routes/whatsapp.routes')
 
 const { createBot, createProvider, createFlow, addKeyword} = require("@bot-whatsapp/bot");
 const QRPortalWeb = require("@bot-whatsapp/portal");
@@ -30,7 +31,7 @@ const axios = require("axios");
 // const { flujoServicios } = require("./src/flows/flujoServicios")
 
 // const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
-const { flujoPrincipal } = require("./src/flows/flujoPrincipal");
+const { flujoSaludo } = require("./src/flows/flujoSaludo");
 
 BASE_URL = "http://localhost:4000";
 axios.defaults.baseURL = BASE_URL;
@@ -90,7 +91,7 @@ const getProductos = async () => {
         // flujoRespuesta,
         // flujoServicios,
         // flujoUbicacion,
-        flujoPrincipal,
+        flujoSaludo,
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   
@@ -107,13 +108,15 @@ const getProductos = async () => {
   
 
 const app = express();
-app.use(express.json())
+  app.use(express.json())
 
 app.use(productosRoutes)
 app.use(CategoriasRoutes)
 app.use(PedidosRoutes)
 app.use(PedidosDetallesRoutes)
 app.use(ClientesRoutes)
+app.use(whatsappRoute)
+
 
 
 module.exports = app;
