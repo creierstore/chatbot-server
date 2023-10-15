@@ -17,7 +17,7 @@ const response = [
 	"Servicio 3",
 ];
 
-const flujoRecomendacion = addKeyword(keywords).addAnswer(
+const flujoServicios = addKeyword(keywords).addAnswer(
 	response,
 	null,
 	null,
@@ -25,5 +25,5 @@ const flujoRecomendacion = addKeyword(keywords).addAnswer(
 );
 
 module.exports = {
-	flujoRecomendacion,
+	flujoServicios,
 };
