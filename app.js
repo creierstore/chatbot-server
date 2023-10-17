@@ -1,20 +1,38 @@
 const express = require("express")
 const productosRoutes = require('./src/routes/productos.routes')
 const CategoriasRoutes = require('./src/routes/categorias.routes')
+const ClientesRoutes = require('./src/routes/clientes.routes')
+const PedidosRoutes = require('./src/routes/pedidos.routes')
+const PedidosDetallesRoutes = require('./src/routes/pedido-detalles.routes')
+const whatsappRoute = require('./src/routes/whatsapp.routes')
 
 const { createBot, createProvider, createFlow, addKeyword} = require("@bot-whatsapp/bot");
 const QRPortalWeb = require("@bot-whatsapp/portal");
 const BaileysProvider = require("@bot-whatsapp/provider/baileys");
+// const VenomProvider = require('@bot-whatsapp/provider/venom')
 const MockAdapter = require("@bot-whatsapp/database/mock");
-
-// FLOWS DE CONVERSACION
-const { flowRecepcion }  = require("./src/flows/flowOrder");
-const { flowBienvenida } = require("./src/flows/flowWelcome");
-const { flowConsulta, flowUbicacion, flowBotones } = require("./src/flows/flowQuery");
-const { flowHablarVendedor } = require("./src/flows/flowAgent");
-const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
-
 const axios = require("axios");
+
+// // FLOWS DE CONVERSACION
+// const { flowRecepcion }  = require("./src/flows/flowOrder");
+// const { flowBienvenida } = require("./src/flows/flowWelcome");
+// const { flowConsulta, flowUbicacion, flowBotones } = require("./src/flows/flowQuery");
+// const { flowHablarVendedor } = require("./src/flows/flowAgent");
+// const { flowEfectivo, flowPagoOnline, flowTransferencia } = require("./src/flows/flowPagos");
+
+// const { flujoDespedida } = require("./src/flows/flujoDespedida");
+// const { flujoRespuesta } = require("./src/flows/flujoRespuesta")
+// const { flujoConsulta } = require("./src/flows/flujoConsulta")
+// const { flujoPagos } = require("./src/flows/flujoPagos")
+// const { flujoCarrito } = require("./src/flows/flujoCarrito")
+// const { flujoEncuesta } = require("./src/flows/flujoEncuesta")
+// const { flujoEnvio } = require("./src/flows/flujoEnvio")
+// const { flujoPedido } = require("./src/flows/flujoPedido")
+// const { flujoServicios } = require("./src/flows/flujoServicios")
+
+// const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
+const { flujoSaludo } = require("./src/flows/flujoSaludo");
+const { flujoPedido, flowImagenProducto } = require("./src/flows/flujoPedido")
 
 BASE_URL = "http://localhost:4000";
 axios.defaults.baseURL = BASE_URL;
@@ -64,14 +82,18 @@ const getProductos = async () => {
     const adapterDB = new MockAdapter();
     const adapterFlow = createFlow(
       [
-        flowBienvenida, 
-        flowConsulta, flowUbicacion, flowBotones,
-        flowHablarVendedor,
-        flowRecepcion,
-        flowObtenerProductos,
-        flowPagoOnline,
-        flowEfectivo,
-        flowTransferencia
+        // flujoCarrito,
+        // flujoConsulta,
+        // flujoDespedida,
+        // flujoEncuesta,
+        // flujoEnvio,
+        // flujoPagos,
+        // flujoPedido,
+        // flowImagenProducto,
+        // flujoRespuesta,
+        // flujoServicios,
+        // flujoUbicacion,
+        flujoSaludo,
       ]);
     const adapterProvider = createProvider(BaileysProvider);
   
@@ -88,9 +110,15 @@ const getProductos = async () => {
   
 
 const app = express();
-app.use(express.json())
+  app.use(express.json())
 
 app.use(productosRoutes)
 app.use(CategoriasRoutes)
+app.use(PedidosRoutes)
+app.use(PedidosDetallesRoutes)
+app.use(ClientesRoutes)
+app.use(whatsappRoute)
+
+
 
 module.exports = app;

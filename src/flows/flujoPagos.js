@@ -1,4 +1,16 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
+const { flujoUbicacion } = require("./flujoUbicacion");
+const { flujoEnvio } = require("./flujoEnvio");
+const { flujoDespedida } = require("./flujoDespedida");
+const { flujoEncuesta } = require("./flujoEncuesta");
+const { flujoRespuesta } = require("./flujoRespuesta");
+const { flujoCarrito } = require("./flujoCarrito");
+
+// Ubicacion
+// Envio
+// Despedida
+// Respuesta
+
 
 // FLOWS DE PAGO
 const flowPagoOnline = addKeyword("online","Onlie","Onnline","Onilne","Onliine","Omline").addAnswer(
@@ -54,8 +66,32 @@ const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranfe
     []
   );
 
+  
+const keywords = ["pagos", "pago", "pagar"];
+const flujos = [
+  flowPagoOnline, 
+  flowEfectivo, 
+  flowTransferencia, 
+  flujoUbicacion, 
+  flujoEnvio, 
+  flujoDespedida, 
+  flujoEncuesta, 
+  flujoRespuesta, 
+  flujoCarrito,
+];
+
+const response = [
+	"Te gustaria pagar en efectivo, online o por transferencia bancaria?",
+];
+
+const flujoPagos = addKeyword(keywords).addAnswer(
+	response,
+	null,
+	null,
+	flujos
+);
+
+
 module.exports = {
-  flowPagoOnline,
-  flowEfectivo,
-  flowTransferencia,
+	flujoPagos,
 };

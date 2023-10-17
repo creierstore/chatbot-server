@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database.js");
+const Producto = require("./producto.models.js");
 
-const Producto = sequelize.define("productos", {
+const Categoria = sequelize.define("categorias", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -9,23 +10,23 @@ const Producto = sequelize.define("productos", {
   },
   title: {
     type: DataTypes.STRING,
-  },  
-  idProduct: {
-    type: DataTypes.FLOAT,
   },
-  price: {
+  idCustom: {
     type: DataTypes.FLOAT,
-  },
-  description: {
-    type: DataTypes.STRING,
   },
   image: {
     type: DataTypes.STRING,
   },
-  link: {
-    type: DataTypes.STRING,
-  },
 });
 
-module.exports = Producto;
+Categoria.hasMany(Producto, {
+  foreignKey: "categoriaId",
+  sourceKey: "id",
+});
 
+Producto.belongsTo(Categoria, {
+  foreignKey: "categoriaId",
+  targetId: "id",
+});
+
+module.exports = Categoria;

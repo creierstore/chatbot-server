@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon index.js",
     "start": "node --watch app.js"
   },
   "keywords": [],
@@ -17,7 +17,9 @@
     "openai": "^4.11.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.33.0"
+    "sequelize": "^6.33.0",
+    "twilio": "^4.18.1",
+    "venom-bot": "^5.0.21"
   },
   "devDependencies": {
     "@bot-whatsapp/bot": "latest",
@@ -25,9 +27,11 @@
     "@bot-whatsapp/database": "latest",
     "@bot-whatsapp/portal": "latest",
     "@bot-whatsapp/provider": "latest",
+    "@types/supertest": "^2.0.14",
     "@whiskeysockets/baileys": "^6.4.0",
     "axios": "^1.5.1",
     "nodemon": "^3.0.1",
+    "supertest": "^6.3.3",
     "wa-sticker-formatter": "4.3.2"
   }
 }
