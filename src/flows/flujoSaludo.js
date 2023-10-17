@@ -4,7 +4,7 @@ const { flujoServicios } = require("./flujoServicios");
 const { flujoConsulta } = require("./flujoConsulta");
 const { flujoDespedida } = require("./flujoDespedida");
 const { flujoRespuesta } = require("./flujoRespuesta");
-const { flujoPedido } = require("./flujoPedido");
+const { flujoPedido, flowImagenProducto } = require("./flujoPedido");
 
 
 
@@ -15,17 +15,6 @@ const { flujoPedido } = require("./flujoPedido");
 // Flujo Despedida
 
 // Importar todo
-
-const flowString = addKeyword('xxx')
-  .addAnswer('Indica cual es tu email', null, (ctx, { fallBack }) => {
-    if (!ctx.body.includes('@')) {
-      return fallBack()
-    } else {
-      // Lógica para procesar el correo electrónico del usuario
-    }
-  })
-
-
 
 
 
@@ -81,13 +70,13 @@ const keywords = [
 
 const response = ["Bienvenido a Versol Informática"];
 const flujos = [
-	flujoEnvio,
-	flujoServicios,
 	flujoConsulta,
-	flujoDespedida,
-	flujoRespuesta,
 	flujoPedido,
-	flowString
+	flujoServicios,
+	flujoEnvio,
+	flujoDespedida,
+	flowImagenProducto,
+	flujoRespuesta,
 ];
 
 // const flowBienvenida = addKeyword(['hola', 'buenas']).addAnswer(
@@ -107,7 +96,16 @@ const flujoSaludo = addKeyword(keywords).addAnswer(response, {delay: 3000},
 		const mensajeRecibido = ctx.body;
 	}, flujos);
 
-
+// const flujoSaludo = addKeyword(keywords).addAnswer(response, {delay: 3000}, 
+// 	async (ctx, { flowDynamic, gotoFlow, state }) => {
+// 		console.log('USER MESSAGE', ctx);
+// 		const numeroDeWhatsapp = ctx.from;
+// 		const mensajeRecibido = ctx.body;
+// 		flowDynamic("Un momento por favor, te envio una imagen");
+// 		gotoFlow(flowImagenProducto);
+	
+// 	}, flujos);
+	
 	
 module.exports = {
 // flowBienvenida,

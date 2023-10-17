@@ -64,14 +64,15 @@ const { flujoRespuesta } = require("./flujoRespuesta");
 //     [flowProductos]
 //   );
 
-// const flowImagenProducto = addKeyword([""]).addAnswer(
-//   ["Te paso los datos bancarios"],
-//   {
-//     media:
-//       "https://gisellearenalsocialmedia.com/wp-content/uploads/2021/02/0b90f137-2a8d-44f4-a420-ff834295ba58.jpg",
-//   },
-//   null
-// );
+const flowImagenProducto = addKeyword(["imagen"]).addAnswer(
+  ["Te paso los datos bancarios"],
+  {
+    media:
+	'https://web.seducoahuila.gob.mx/biblioweb/upload/hemingway,%20ernest%20-%20el%20viejo.pdf'
+    //   "https://gisellearenalsocialmedia.com/wp-content/uploads/2021/02/0b90f137-2a8d-44f4-a420-ff834295ba58.jpg",
+  },
+  null
+);
 
 // let products;
 
@@ -309,6 +310,7 @@ const flujoPedido = addKeyword(keywords).addAnswer(
 );
 
 module.exports = {
+	flowImagenProducto,
 	flujoPedido,
 };
 

@@ -67,8 +67,18 @@ const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranfe
   );
 
   
-const keywords = ["pagos"];
-const flujos = [flowPagoOnline, flowEfectivo, flowTransferencia, flujoUbicacion, flujoEnvio, flujoDespedida, flujoEncuesta, flujoRespuesta, flujoCarrito];
+const keywords = ["pagos", "pago", "pagar"];
+const flujos = [
+  flowPagoOnline, 
+  flowEfectivo, 
+  flowTransferencia, 
+  flujoUbicacion, 
+  flujoEnvio, 
+  flujoDespedida, 
+  flujoEncuesta, 
+  flujoRespuesta, 
+  flujoCarrito,
+];
 
 const response = [
 	"Te gustaria pagar en efectivo, online o por transferencia bancaria?",

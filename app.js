@@ -32,6 +32,7 @@ const axios = require("axios");
 
 // const { flujoUbicacion } = require("./src/flows/flujoUbicacion")
 const { flujoSaludo } = require("./src/flows/flujoSaludo");
+const { flujoPedido, flowImagenProducto } = require("./src/flows/flujoPedido")
 
 BASE_URL = "http://localhost:4000";
 axios.defaults.baseURL = BASE_URL;
@@ -88,6 +89,7 @@ const getProductos = async () => {
         // flujoEnvio,
         // flujoPagos,
         // flujoPedido,
+        // flowImagenProducto,
         // flujoRespuesta,
         // flujoServicios,
         // flujoUbicacion,
