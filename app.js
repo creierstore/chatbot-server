@@ -2,6 +2,14 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+app.use(express.static(__dirname));
+
+// Import the health check route
+const healthCheckRouter = require('./src/routes/health-check.route');
+
+// Use the health check route
+app.use('/', healthCheckRouter); // You can change the '/api' path to whatever you prefer
+
 require("dotenv").config();
 // BOT
 const { createBot, createProvider, createFlow } = require("@bot-whatsapp/bot");
