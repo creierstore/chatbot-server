@@ -40,6 +40,36 @@ const response = [
 
 const flujoConsulta = addKeyword(keywords).addAnswer(response, null, null, flujos);
 
+let nombre;
+let apellidos;
+let telefono;
+
+// const flowObtenerProductos = addKeyword(['productos'])
+//     .addAnswer(
+//         ['Claro, ¡voy a buscar los productos para ti!'],
+//         null,
+//         async (ctx, { flowDynamic, endFlow }) => {
+//             try {
+//                 const response = await axios.get('http://localhost:4000/productos');
+//                 const productos = response.data;
+
+//                 if (productos.length === 0) {
+//                     return flowDynamic('Lo siento, no hay productos disponibles en este momento.');
+//                 } else {
+//                     // Aquí puedes formatear la lista de productos como desees
+//                     const formattedProductos = productos.map((producto, index) => {
+//                         return `${index + 1}. ${producto.title} - Precio: ${producto.price}`;
+//                     }).join('\n');
+
+//                     return flowDynamic(`Aquí tienes algunos de nuestros productos:\n${formattedProductos}`);
+//                 }
+//             } catch (error) {
+//                 console.error(error);
+//                 return flowDynamic('Lo siento, hubo un error al obtener los productos. Por favor, inténtalo más tarde.');
+//             }
+//         }
+//     );
+
 module.exports = {
 	flujoConsulta,
 };

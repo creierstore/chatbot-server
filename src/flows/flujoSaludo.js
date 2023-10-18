@@ -89,7 +89,7 @@ const flujos = [
 //     }
 //   );
 
-const flujoSaludo = addKeyword(keywords).addAnswer(response, {delay: 3000}, 
+const flujoSaludo = addKeyword(keywords).addAnswer(response, {delay: 1500}, 
 	async (ctx, { flowDynamic, gotoFlow, state }) => {
 		console.log('USER MESSAGE', ctx);
 		const numeroDeWhatsapp = ctx.from;
