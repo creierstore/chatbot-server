@@ -1,16 +1,17 @@
-const app = require("./app.js");
+const {app, main} = require("./app.js");
 require("dotenv").config();
 
-const PORT = 8100;
+const PORT = process.env.PORT ?? 8200;
 
-async function main() {
+async function start() {
   try {
     console.log("Connection has been established successfully.");
     app.listen(PORT);
+    main();
     console.log("Server is listening on port", PORT);
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }
 }
 
-main();
+start();
