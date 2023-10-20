@@ -56,6 +56,7 @@ const main = async () => {
     flowConsulta,
     flujoUbicacion,
     flujoPagos,
+    flujoSaludo,
 
   ]);
   const adapterProvider = createProvider(BaileysProvider);
