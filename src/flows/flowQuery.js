@@ -1,18 +1,12 @@
 const { addKeyword, addAnswer } = require("@bot-whatsapp/bot");
-const {
-  promptProductos,
-  sendPrompt,
-  promptPedido,
-} = require("../config/openai");
+const { sendPrompt} = require("../config/openai");
 const sequelize = require("../database/database");
 const Cliente = require("../models/cliente.models");
-const {
-  createCliente,
-  getClienteByTelephone,
-} = require("../services/cliente.service");
+const { createCliente, getClienteByTelephone} = require("../services/cliente.service");
 const { searchProducto } = require("../services/producto.service");
 
-const { createPedido } = require('../controllers/pedidos.controller')
+const { createPedido } = require('../controllers/pedidos.controller');
+const { promptProductos, promptPedido } = require("../prompts/prompts");
 
 let PRODUCTOS = [];
 let USERDATA = [];

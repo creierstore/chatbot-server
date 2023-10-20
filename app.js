@@ -27,18 +27,38 @@ const { createBot, createProvider, createFlow } = require("@bot-whatsapp/bot");
 const BaileysProvider = require("@bot-whatsapp/provider/baileys");
 const MockAdapter = require("@bot-whatsapp/database/mock");
 // FLUJOS
+const { flujoBienvenida, flujoRecibirMedia, flujoRecibirUbicacion, flujoRecibirNotaDeVoz, flujoRecibirDocumento } = require("./src/flows/flujoEventos");
 const { flujoSaludo } = require("./src/flows/flujoSaludo");
+const { flujoServicios } = require("./src/flows/flujoServicios");
+const { flujoConsulta } = require("./src/flows/flujoConsulta");
 
 const main = async () => {
   const adapterDB = new MockAdapter();
-  const adapterFlow = createFlow([flujoSaludo]);
+  const adapterFlow = createFlow([
+    // FLUJOS DE EVENTOS
+    flujoBienvenida,
+    // flujoRecibirMedia,
+    // flujoRecibirUbicacion,
+    // flujoRecibirNotaDeVoz,
+    // flujoRecibirDocumento,
+    // FLUJO DE SALUDO
+    // flujoSaludo,
+    flujoConsulta,
+    flujoServicios
+  ]);
   const adapterProvider = createProvider(BaileysProvider);
 
   createBot({
     flow: adapterFlow,
     provider: adapterProvider,
     database: adapterDB,
-  });
+  },
+  {
+    globalState: {
+    encendido: true,
+  }
+   }
+  );
 };
 
 module.exports = {
