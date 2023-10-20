@@ -10,7 +10,7 @@ const keywords = [
 ];
 const response = [
 	"Califica tu experiencia con nuestro servicio. Gracias",
-	"link.com/encuesta",
+	"https://forms.gle/pg5XkANXn4g6W8qZ9",
 ];
 
 

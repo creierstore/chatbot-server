@@ -1,11 +1,9 @@
-const { addKeyword, addAnswer } = require("@bot-whatsapp/bot");
+const { addKeyword } = require("@bot-whatsapp/bot");
 const { sendPrompt} = require("../config/openai");
-const sequelize = require("../database/database");
-const Cliente = require("../models/cliente.models");
 const { createCliente, getClienteByTelephone} = require("../services/cliente.service");
-const { searchProducto } = require("../services/producto.service");
+// const { searchProducto } = require("../services/producto.service");
 
-const { createPedido } = require('../controllers/pedidos.controller');
+// const { createPedido } = require('../controllers/pedidos.controller');
 const { promptProductos, promptPedido } = require("../prompts/prompts");
 
 let PRODUCTOS = [];
@@ -42,7 +40,7 @@ let PRODUCTO_SELECCIONADO = {};
 
 const flowConsulta = addKeyword(["pregunta", "consulta"])
   .addAnswer(
-    `Si, cual es tu consulta
+  `Si, cual es tu consulta
     Este es un ejemplo de pregunta:
     - Tienen monitores de la marca Samsung`,
     // TODO: HACER CONSULTA A BASE DE DATOS

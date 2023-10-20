@@ -31,6 +31,11 @@ const { flujoBienvenida, flujoRecibirMedia, flujoRecibirUbicacion, flujoRecibirN
 const { flujoSaludo } = require("./src/flows/flujoSaludo");
 const { flujoServicios } = require("./src/flows/flujoServicios");
 const { flujoConsulta } = require("./src/flows/flujoConsulta");
+const { flujoRecomendacion } = require("./src/flows/flujoRecomendacion");
+const { flujoAgente } = require("./src/flows/flujoAgente");
+const { flowConsulta } = require("./src/flows/flowQuery");
+const { flujoUbicacion } = require("./src/flows/flujoUbicacion");
+const { flujoPagos } = require("./src/flows/flujoPagos");
 
 const main = async () => {
   const adapterDB = new MockAdapter();
@@ -42,9 +47,16 @@ const main = async () => {
     // flujoRecibirNotaDeVoz,
     // flujoRecibirDocumento,
     // FLUJO DE SALUDO
-    // flujoSaludo,
+    
+    // FLUJOS
     flujoConsulta,
-    flujoServicios
+    flujoServicios,
+    flujoRecomendacion,
+    flujoAgente,
+    flowConsulta,
+    flujoUbicacion,
+    flujoPagos,
+
   ]);
   const adapterProvider = createProvider(BaileysProvider);
 
