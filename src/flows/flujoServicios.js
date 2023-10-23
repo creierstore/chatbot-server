@@ -37,8 +37,7 @@ const answerVentaProductos3 = [
 const flujoVentaProductos = addKeyword(keywordsVentaProductos)
   .addAnswer(answerVentaProductos1, { delay: 2000 })
   .addAnswer(answerVentaProductos2, { delay: 2000 })
-  .addAnswer(answerVentaProductos3, { delay: 2000 }, null, [flowConsulta2]
-);
+  .addAnswer(answerVentaProductos3, { delay: 2000 });
 
 // FLUJO CCTV
 
