@@ -34,7 +34,6 @@ const flowEfectivo = addKeyword(["efectivo","Efectvo","Efecitvo","Efeectivo","Ef
 const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranferencia",  "Transferenica",  "Transfernecia",  "Tranferenca"])
   .addAnswer(
     [
-      "Entro en flowTransferencia",
       "Ok, te facilito mis datos bancarios, aguardare tu comprobante de transferecia, gracias!",
     ],
     null,
@@ -44,22 +43,22 @@ const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranfe
     `
   Estos son los Datos de Mi Cuenta Eko:
   Titular
-  CARLOS ISAAC CASCO LEGUIZAMON
+  VERA SOLIS EDUARDO AUGUSTO
   
   Banco
   Familiar
   
   Nº de Teléfono
-  +595975174920
+  +595973209691
   
   Nº de Cédula
-  4880887
+  4064022
   
   N° de cuenta para transferencias desde Banco Familiar
-  81-76220
+  81-723821
   
   N° de cuenta para transferencias desde otros bancos
-  8176220
+  81723821
   `,
     null,
     null,

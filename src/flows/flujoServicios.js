@@ -1,18 +1,43 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
 const { flujoDespedida } = require("./flujoDespedida");
-const { flujoConsulta } = require("./flujoConsulta");
+const { flujoConsultaProducto, flowConsulta2 } = require("./flujoConsulta");
 const { flujoRespuesta } = require("./flujoRespuesta");
 const { flujoEncuesta } = require("./flujoEncuesta");
 
 // FLUJO VENTA
 
-const keywordsVentaProductos = ["venta", "productos informáticos", "hardware"];
-const answerVentaProductos = [
-  "Sí, también ofrecemos una amplia gama de productos informáticos.",
-  "Tenemos una selección de hardware y productos informáticos disponibles para la venta. ¿Necesitas algún componente específico o producto?",
+const keywordsVentaProductos = [
+  "venta",
+  "productos informáticos",
+  "hardware",
+  "vienta",
+  "ventta",
+  "produtos informáticos",
+  "productos informatcos",
+  "productos informáticoss",
+  "hardwar",
+  "harware",
+  "hardwware",
+  "hardeare",
+  "harwaree",
+  "produtos",
+  "productos",
+  "productos",
 ];
-const flujoVentaProductos = addKeyword(keywordsVentaProductos).addAnswer(
-  answerVentaProductos
+const answerVentaProductos1 = [
+  "Sí, también ofrecemos una amplia gama de productos informáticos.",
+];
+const answerVentaProductos2 = [
+  "Tenemos una selección de hardware y productos informáticos disponibles para la venta.",
+];
+const answerVentaProductos3 = [
+  "¿Necesitas algún componente específico o producto?",
+];
+
+const flujoVentaProductos = addKeyword(keywordsVentaProductos)
+  .addAnswer(answerVentaProductos1, { delay: 2000 })
+  .addAnswer(answerVentaProductos2, { delay: 2000 })
+  .addAnswer(answerVentaProductos3, { delay: 2000 }, null, [flowConsulta2]
 );
 
 // FLUJO CCTV
@@ -39,7 +64,9 @@ const answerCCTV1 = [
 const answerCCTV2 = ["¿En qué tipo de instalación estás interesado?"];
 const flujoCCTV = addKeyword(keywordsCCTV)
   .addAnswer(answerCCTV1, { delay: 2000 })
-  .addAnswer(answerCCTV2,  { capture: true, delay: 2000 },
+  .addAnswer(
+    answerCCTV2,
+    { capture: true, delay: 2000 },
     async (ctx, { flowDynamic, gotoFlow }) => {
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
@@ -50,7 +77,8 @@ const flujoCCTV = addKeyword(keywordsCCTV)
         "Voy a preparar un presupuesto teniendo en cuenta esos datos, apenas te tengo una respuesta te retorno muchas gracias"
       );
       gotoFlow(flujoEncuesta);
-    });
+    }
+  );
 
 // FLUJO MANTENIMIENTO
 
@@ -83,7 +111,9 @@ const answerMantenimiento3 = [
 const flujoMantenimiento = addKeyword(keywordsMantenimiento)
   .addAnswer(answerMantenimiento1, { delay: 2000 })
   .addAnswer(answerMantenimiento2, { delay: 2000 })
-  .addAnswer(answerMantenimiento3,  { capture: true, delay: 2000 },
+  .addAnswer(
+    answerMantenimiento3,
+    { capture: true, delay: 2000 },
     async (ctx, { flowDynamic, gotoFlow }) => {
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
@@ -94,7 +124,8 @@ const flujoMantenimiento = addKeyword(keywordsMantenimiento)
         "Voy a preparar un presupuesto teniendo en cuenta esos datos, apenas te tengo una respuesta te retorno muchas gracias"
       );
       gotoFlow(flujoEncuesta);
-    });
+    }
+  );
 
 //FLUJO SERVICIO TECNICO
 const keyMontaje = [
@@ -156,7 +187,7 @@ const keySoporte = [
   "soporté técnico",
   "sopórte técnico",
   "sopor téchnico",
-  "soporte"
+  "soporte",
 ];
 const flujoServicioTecnico = addKeyword(keySoporte)
   .addAnswer("Sí, ofrecemos servicios de servicio técnico en general.", {
