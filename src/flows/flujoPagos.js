@@ -1,6 +1,6 @@
 const { addKeyword } = require("@bot-whatsapp/bot");
 const { flujoUbicacion } = require("./flujoUbicacion");
-const { flujoEnvio } = require("./flujoEnvio");
+const { flujoEnvio, flujoMediosEntrega } = require("./flujoEnvio");
 const { flujoDespedida } = require("./flujoDespedida");
 const { flujoEncuesta } = require("./flujoEncuesta");
 const { flujoRespuesta } = require("./flujoRespuesta");
@@ -12,33 +12,39 @@ const { flujoCarrito } = require("./flujoCarrito");
 // Respuesta
 
 
-// FLOWS DE PAGO
-const flowPagoOnline = addKeyword("online","Onlie","Onnline","Onilne","Onliine","Omline").addAnswer(
-  [
-    "Entro en flowPagoOnline",
-    "Puedes pagar con el siguiente link: ",
-    "https://www.pagopar.com/pagos/b66b96d645d47ea3db0dd9ce35f26ba578e4c6c20ec463599253da05bd1b443e",
-  ],
-  null,
-  null,
-  []
+// FLujoS DE PAGO
+// const flujoPagoOnline = addKeyword("online","Onlie","Onnline","Onilne","Onliine","Omline").addAnswer(
+//   [
+//     "Entro en flujoPagoOnline",
+//     "Puedes pagar con el siguiente link: ",
+//     "https://www.pagopar.com/pagos/ejemplo",
+//   ],
+//   null,
+//   null,
+//   []
+// );
+
+
+
+// const flujoEfectivo = addKeyword(["efectivo","Efectvo","Efecitvo","Efeectivo","Efectivoo","Efeftivo"]).addAnswer(
+//   ["Ok, puedes abonar al momento de la entrega!"],
+//   null,
+//   null,
+//   [flujoEnvio]
+// );
+
+const flujoEfectivo = addKeyword(["efectivo","Efectvo","Efecitvo","Efeectivo","Efectivoo","Efeftivo"]).addAnswer(
+  ["Ok, puedes abonar al momento de la entrega!"],
+  null, 
+  async (ctx, {gotoFlow})=>{
+
+  console.log('MESSAGE EFECTIVO', ctx.body);
+  gotoFlow(flujoMediosEntrega);
+  }
 );
 
-const flowEfectivo = addKeyword(["efectivo","Efectvo","Efecitvo","Efeectivo","Efectivoo","Efeftivo"]).addAnswer(
-  ["Entro en flowEfectivo", "Ok, puedes abonar al momento de la entrega!"],
-  null,
-  null,
-  []
-);
-
-const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranferencia",  "Transferenica",  "Transfernecia",  "Tranferenca"])
-  .addAnswer(
-    [
-      "Ok, te facilito mis datos bancarios, aguardare tu comprobante de transferecia, gracias!",
-    ],
-    null,
-    null
-  )
+const flujoTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranferencia",  "Transferenica",  "Transfernecia",  "Tranferenca"])
+  .addAnswer(["Ok, te facilito mis datos bancarios"], {delay:1500})
   .addAnswer(
     `
   Estos son los Datos de Mi Cuenta Eko:
@@ -59,28 +65,39 @@ const flowTransferencia = addKeyword(["transferencia",  "Trasferencia",  "Tranfe
   
   N° de cuenta para transferencias desde otros bancos
   81723821
-  `,
-    null,
-    null,
-    []
-  );
+  `, {delay:1500} )
+  .addAnswer(["Aguardare el comprobante de transferecia!"], {delay:1500})
+  .addAnswer(["Como le gustaria recibir su pedido, pasará a retirar del local o le enviamos por delivery"], {capture: true, delay:1500},
+  async (ctx, {gotoFlow})=> {
+    console.log('el mensaje es', ctx.body);
+    // gotoFlow(flujoEnvio)
+  }
+  )
+  ;
 
+
+const flujoPagoShopify= addKeyword('Hola Edu, Este es mi pedido').addAnswer(
+	"Muy buena elección, te gustaria pagar en efectivo, por transferencia bancaria?",
+	null,
+	null,
+	[flujoEfectivo, flujoTransferencia]
+);
   
 const keywords = ["pagos", "pago", "pagar"];
 const flujos = [
-  flowPagoOnline, 
-  flowEfectivo, 
-  flowTransferencia, 
+  flujoEfectivo, 
+  flujoTransferencia, 
   flujoUbicacion, 
   flujoEnvio, 
   flujoDespedida, 
   flujoEncuesta, 
   flujoRespuesta, 
   flujoCarrito,
+  flujoPagoShopify
 ];
 
 const response = [
-	"Te gustaria pagar en efectivo, online o por transferencia bancaria?",
+	"Disponemos de cobro en efectivo y por transferencia bancaria!", 
 ];
 
 const flujoPagos = addKeyword(keywords).addAnswer(
@@ -90,7 +107,7 @@ const flujoPagos = addKeyword(keywords).addAnswer(
 	flujos
 );
 
-
 module.exports = {
 	flujoPagos,
+  flujoPagoShopify
 };

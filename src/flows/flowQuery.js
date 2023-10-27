@@ -1,10 +1,12 @@
-const { addKeyword } = require("@bot-whatsapp/bot");
+const { addKeyword, EVENTS } = require("@bot-whatsapp/bot");
 const { sendPrompt} = require("../config/openai");
 const { createCliente, getClienteByTelephone} = require("../services/cliente.service");
 // const { searchProducto } = require("../services/producto.service");
 
 // const { createPedido } = require('../controllers/pedidos.controller');
 const { promptProductos, promptPedido } = require("../prompts/prompts");
+const { postCustomQuery } = require("../services/productos.service");
+const { flujoPagos, flujoPagoShopify } = require("./flujoPagos");
 
 let PRODUCTOS = [];
 let USERDATA = [];
@@ -12,6 +14,21 @@ let CLIENTE = {};
 
 let PRODUCTO_DETALLE = {};
 let PRODUCTO_SELECCIONADO = {};
+
+ 
+const flujoResumenPedido = addKeyword([EVENTS.ACTION, 'si', 'no']).addAnswer('', {capture: true}, async (ctx, {state, flowDynamic, gotoFlow, fallBack}) => {
+  
+  const myState = state.getMyState();
+  console.log(myState);
+  if (ctx.body.toLowerCase() === "si") {
+    flowDynamic("Ok, procesamos tu pedido. Muchas gracias");
+    gotoFlow(flujoPagoShopify);
+  } else if (ctx.body.toLowerCase() === "no") {
+    flowDynamic("Ok, de acuerdo, tiene alguna otra consulta?")
+  } else {
+    fallBack("Perdona, no te he entendido, responde con SI o NO");
+  }
+})
 
 // const flowPedido = addKeyword('quiero').addAnswer(["Estos son los botones"], {
 //   delay: 3000,
@@ -40,9 +57,8 @@ let PRODUCTO_SELECCIONADO = {};
 
 const flowConsulta = addKeyword(["pregunta", "consulta"])
   .addAnswer(
-  `Si, cual es tu consulta
-    Este es un ejemplo de pregunta:
-    - Tienen monitores de la marca Samsung`,
+`Si, cual es tu consulta te mando un ejemplo de consulta:
+- Tienen monitores de la marca Samsung`,
     // TODO: HACER CONSULTA A BASE DE DATOS
     { capture: true },
     async (ctx, { flowDynamic, gotoFlow, state }) => {
@@ -50,34 +66,39 @@ const flowConsulta = addKeyword(["pregunta", "consulta"])
       const numeroDeWhatsapp = ctx.from;
       const mensajeRecibido = ctx.body;
 
-      USERDATA = ctx;
-      console.log("Data to Save", USERDATA, USERDATA.from, USERDATA.pushName);
+      // USERDATA = ctx;
+      // console.log("Data to Save", USERDATA, USERDATA.from, USERDATA.pushName);
 
-      const saveUserData = await createCliente({
-        // name : ctx.sender.name,
-        name: ctx.pushName,
-        telephone: ctx.from,
-      });
+    //   const cliente = await getClienteByTelephone(ctx.from);
 
-      CLIENTE = (await getClienteByTelephone(USERDATA.from)).dataValues;
+    // if(!cliente){
+    //   CLIENTE = await createCliente({
+    //     name: ctx.pushName,
+    //     telephone: ctx.from,
+    //   });
+    // }
 
-      console.log("CLIENTE ENCONTRADO", CLIENTE);
+    // CLIENTE = cliente
+    
+    
+    // console.log('CLIENTE VERIFICADO',CLIENTE);
 
-      console.log("DATOS A SER GUARDADOS", saveUserData);
+      // console.log("CLIENTE ENCONTRADO", CLIENTE);
 
-      flowDynamic("Un momento por favor, voy a verificar!");
+      // console.log("DATOS A SER GUARDADOS", saveUserData);
+
+      flowDynamic("Un momento por favor, voy a verificar!", {delay: 2000});
       try {
         const consultaSQL = await sendPrompt(promptProductos(mensajeRecibido));
-        // console.log('valorSQL', consultaSQL.choices[0].message.content);
 
         let sql = consultaSQL.choices[0].message.content;
+        const respuestaBD = await postCustomQuery(sql);
 
-        const respuestaBD = await sequelize.query(sql);
+        
+        const productos = respuestaBD.data.data;
+        // const objetoLimpio =  JSON.stringify(productos.slice(0,4),0,2);
 
-        // console.log(respuestaBD);
-        // const objetoLimpio =  JSON.stringify(respuestaBD[0].slice(0,4),0,2);
-
-        const productos = respuestaBD[0].slice(0, 5);
+        console.log(productos);
 
         PRODUCTOS = productos;
 
@@ -87,6 +108,13 @@ const flowConsulta = addKeyword(["pregunta", "consulta"])
           const mensajeEnviar = `*${title}*, *Precio:* ${price}`;
           flowDynamic(mensajeEnviar);
         }
+
+        flowDynamic(
+`Si estas interesado en uno de los productos 
+escribe *quiero* e indica la cantidad y el producto deseado
+  
+*Ejemplo:*
+Quiero 1 Monitor Samsung QTLXX color negro`, {delay: 2000})
       } catch (error) {
         flowDynamic("Disculpa ahora mismo no puedo responderte");
         console.log(error.message);
@@ -94,11 +122,10 @@ const flowConsulta = addKeyword(["pregunta", "consulta"])
     }
   )
   .addAnswer(
-    `Si estas interesado en uno de los productos 
-escribe *quiero* e indica la cantidad y el producto deseado
- 
-*Ejemplo:*
-_Quiero 1 Monitor Samsung QTLXX color negro_`,
+// `Aguardare tu respuesta...`,
+// "Estos son los productos que tenemos disponibles actualmente, teniendo en cuenta tu consulta",
+"",
+
     { capture: true },
     async (ctx, { flowDynamic, gotoFlow, state }) => {
       console.log("Contexto", ctx.body);
@@ -107,13 +134,18 @@ _Quiero 1 Monitor Samsung QTLXX color negro_`,
 
       let SQLPRODUCTO = await sendPrompt(promptProductos(mensajeUser));
 
-      const productoVerificado = await sequelize.query(
+      const productoVerificado = await postCustomQuery(
         SQLPRODUCTO.choices[0].message.content
       );
+      console.log('EL PRODUCTO VERIFICADO ES',productoVerificado.data.data[0]);
+      
+      if(!productoVerificado.data.data.length){
+      return flowDynamic('No pude identificar el producto que mencionaste')
+      }
 
-      // console.log('EL PRODUCTO VERIFICADO ES',productoVerificado);
 
-      PRODUCTO_DETALLE = productoVerificado[0];
+
+      PRODUCTO_DETALLE = productoVerificado.data.data[0];
 
       console.log("PRODUCTO_DETALLE", PRODUCTO_DETALLE);
 
@@ -124,11 +156,15 @@ _Quiero 1 Monitor Samsung QTLXX color negro_`,
         console.log("PEDIDO", pedido);
         console.log(
           "entro en caso economico",
+          PRODUCTOS,
           PRODUCTOS[0].id,
           PRODUCTOS[0].title
         );
         console.log("CLIENTE ID", CLIENTE.id);
-      } else {
+
+        PRODUCTO_SELECCIONADO = JSON.parse(pedido.choices[0].message.content);
+        console.log("PRODUCTO_SELECCIONADO",PRODUCTO_SELECCIONADO);
+      }else {
         // CASO GPT
         console.log("entro en caso caroo");
 
@@ -147,21 +183,21 @@ _Quiero 1 Monitor Samsung QTLXX color negro_`,
           PRODUCTO_SELECCIONADO.cantidad
         );
 
-        // const productoPedido = await searchProducto(productoSeleccionado.nombre)
+      //   // const productoPedido = await searchProducto(productoSeleccionado.nombre)
 
-        // console.log('EL PRODUCTO PEDIDO',productoPedido);
+      //   // console.log('EL PRODUCTO PEDIDO',productoPedido);
         PRODUCTO_DETALLE.id;
         CLIENTE.id;
         PRODUCTO_SELECCIONADO.cantidad;
         PRODUCTO_SELECCIONADO.nombre;
 
-        // const clienteData = { id: CLIENTE.id };
-        // const pedidoData = { direccionEnvio: 'definir ubicacion', estado: 'Pendiente' };
-        // const detallesData = [
-        //   { id: PRODUCTO_DETALLE[0].id,cantidad: PRODUCTO_SELECCIONADO.cantidad, precioUnitario: PRODUCTO_DETALLE[0].price, precioTotal: PRODUCTO_DETALLE[0].price *  PRODUCTO_SELECCIONADO.cantidad},
-        // ];
+      //   // const clienteData = { id: CLIENTE.id };
+      //   // const pedidoData = { direccionEnvio: 'definir ubicacion', estado: 'Pendiente' };
+      //   // const detallesData = [
+      //   //   { id: PRODUCTO_DETALLE[0].id,cantidad: PRODUCTO_SELECCIONADO.cantidad, precioUnitario: PRODUCTO_DETALLE[0].price, precioTotal: PRODUCTO_DETALLE[0].price *  PRODUCTO_SELECCIONADO.cantidad},
+      //   // ];
 
-        // await createPedido(clienteData, pedidoData, detallesData);
+      //   // await createPedido(clienteData, pedidoData, detallesData);
 
 
       }
@@ -170,19 +206,33 @@ _Quiero 1 Monitor Samsung QTLXX color negro_`,
       // En base a la consulta guardar pedido en base de datos. ->> Flow ubicacion, o forma de pago, o generar link con
       // shopify api para pagar en la web de shopify.
 
-      sendPrompt(`Recibiras un pedido de un producto. `);
+      // sendPrompt(`Recibiras un pedido de un producto. `);
       // flowDynamic(`Su pedido es: ${ctx.body}. Confirma su pedido?`);
-      flowDynamic(
-`Su pedido es: 
-*Cant. | Producto | Precio*
-${PRODUCTO_SELECCIONADO.cantidad}         | ${PRODUCTO_DETALLE[0].title} | ${PRODUCTO_DETALLE[0].price} 
+//       flowDynamic(
+// `Su pedido es: 
+// *Cant. | Producto | Precio*
+// ${PRODUCTO_SELECCIONADO.cantidad}         | ${PRODUCTO_DETALLE.title} | ${PRODUCTO_DETALLE.price} 
       
-TOTAL: ${PRODUCTO_DETALLE[0].price * PRODUCTO_SELECCIONADO.cantidad} Gs.
+// TOTAL: ${PRODUCTO_DETALLE.price * PRODUCTO_SELECCIONADO.cantidad} Gs.
       
-Confirma su pedido?`
-      );
+// Confirma su pedido?`
+//       );
+
+      const resumen = `Su pedido es: 
+      *Cant. | Producto | Precio*
+      ${PRODUCTO_SELECCIONADO.cantidad}         | ${PRODUCTO_DETALLE.title} | ${PRODUCTO_DETALLE.price} 
+            
+      TOTAL: ${PRODUCTO_DETALLE.price * PRODUCTO_SELECCIONADO.cantidad} Gs.
+            
+      Confirma su pedido? 
+      Responda con SI o NO`;
+
+      state.update({resumen})
+      flowDynamic(resumen)
+      gotoFlow(flujoResumenPedido, )
     }
-  );
+  )
+ 
 // .addAnswer(
 //   `Si estas interesado en uno de los productos
 //   escribe *quiero* e indica la cantidad y el producto deseado
@@ -194,6 +244,7 @@ Confirma su pedido?`
 
 module.exports = {
   flowConsulta,
+  flujoResumenPedido
   // flowUbicacion,
   // flowPedido
 };

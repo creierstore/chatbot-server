@@ -14,3 +14,24 @@ const axiosInstance = axios.create({
 const getProductos = async () => {
   return await axiosInstance.get("/productos");
 };
+
+
+const postCustomQuery = async (sqlString) => {
+
+  
+  const data = { query : sqlString };
+  
+  console.log("EL SQL QUE LLEGA AL SERVICIO",data);
+  
+  try {
+    return axiosInstance.post("/productos/custom-query", data);
+  } catch (error) {
+    console.log(error.message);
+    
+  }
+};
+
+module.exports = {
+getProductos,
+postCustomQuery
+}

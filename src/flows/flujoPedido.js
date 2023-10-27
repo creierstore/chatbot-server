@@ -65,10 +65,10 @@ const { flujoRespuesta } = require("./flujoRespuesta");
 //   );
 
 const flowImagenProducto = addKeyword(["imagen"]).addAnswer(
-  ["Te paso los datos bancarios"],
+  ["Esta es la imagen"],
   {
     media:
-	'https://web.seducoahuila.gob.mx/biblioweb/upload/hemingway,%20ernest%20-%20el%20viejo.pdf'
+	'https://cdn.shopify.com/s/files/1/0839/0502/0197/files/s-l500.jpg?v=1698255681'
     //   "https://gisellearenalsocialmedia.com/wp-content/uploads/2021/02/0b90f137-2a8d-44f4-a420-ff834295ba58.jpg",
   },
   null

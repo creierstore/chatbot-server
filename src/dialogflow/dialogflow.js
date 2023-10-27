@@ -6,7 +6,12 @@ const structjson = require('structjson');
 require('dotenv').config();
 
 
+
+
 const { addKeyword, addAnswer } = require("@bot-whatsapp/bot");
+
+
+// console.log(process.env);
 
 
 // Replace these values with your own
@@ -61,14 +66,14 @@ async function detectIntent(text, sessionId) {
 const userInput = 'alo!';
 const sessionId = 'unique-session-id'; // You can generate a unique session ID
 
-detectIntent(userInput, sessionId)
-  .then((response) => {
-    console.log('Detected Intent:', response.intent, {response});
-    console.log('Parameters:', response.parameters);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+// detectIntent(userInput, sessionId)
+//   .then((response) => {
+//     console.log('Detected Intent:', response.intent, {response});
+//     console.log('Parameters:', response.parameters);
+//   })
+//   .catch((error) => {
+//     console.error('Error:', error);
+//   });
 
 
   module.exports = {detectIntent}

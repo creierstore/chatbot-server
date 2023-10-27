@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname));
 
+
 const { createReadStream } = require("fs");
 const { join } = require("path");
 
@@ -23,40 +24,49 @@ app.get("/get-qr", async (_, res) => {
 
 require("dotenv").config();
 // BOT
-const { createBot, createProvider, createFlow } = require("@bot-whatsapp/bot");
+const {createBot, createProvider, createFlow } = require("@bot-whatsapp/bot");
 const BaileysProvider = require("@bot-whatsapp/provider/baileys");
 const MockAdapter = require("@bot-whatsapp/database/mock");
 // FLUJOS
-const { flujoBienvenida, flujoRecibirMedia, flujoRecibirUbicacion, flujoRecibirNotaDeVoz, flujoRecibirDocumento } = require("./src/flows/flujoEventos");
-const { flujoSaludo } = require("./src/flows/flujoSaludo");
-const { flujoServicios } = require("./src/flows/flujoServicios");
+const { flujoBienvenida, flujoRecibirMedia, flujoRecibirUbicacion, flujoRecibirNotaDeVoz, flujoRecibirDocumento, flowAyuda } = require("./src/flows/flujoEventos");
+const { flujoPagoShopify, flujoPagos } = require("./src/flows/flujoPagos");
+const { flujoMediosEntrega, flujoEnvio } = require("./src/flows/flujoEnvio");
+const { flujoServicios, flujoMontajeComputadoras, flujoServicioTecnico, flujoVentaProductos, flujoMantenimiento, flujoCCTV } = require("./src/flows/flujoServicios");
 const { flujoConsulta } = require("./src/flows/flujoConsulta");
 const { flujoRecomendacion } = require("./src/flows/flujoRecomendacion");
-const { flujoAgente } = require("./src/flows/flujoAgente");
-const { flowConsulta } = require("./src/flows/flowQuery");
 const { flujoUbicacion } = require("./src/flows/flujoUbicacion");
-const { flujoPagos } = require("./src/flows/flujoPagos");
+const { flowConsulta, flujoResumenPedido } = require("./src/flows/flowQuery");
+const { flujoDespedida } = require("./src/flows/flujoDespedida");
+const { flowImagenProducto } = require("./src/flows/flujoPedido");
+const { flujoEncuesta } = require("./src/flows/flujoEncuesta");
+
 
 const main = async () => {
   const adapterDB = new MockAdapter();
   const adapterFlow = createFlow([
     // FLUJOS DE EVENTOS
     flujoBienvenida,
-    // flujoRecibirMedia,
-    // flujoRecibirUbicacion,
-    // flujoRecibirNotaDeVoz,
-    // flujoRecibirDocumento,
-    // FLUJO DE SALUDO
-    
+    flujoRecibirUbicacion,    
     // FLUJOS
-    flujoConsulta,
+    // flujoConsulta,
+    flujoEnvio,
     flujoServicios,
     flujoRecomendacion,
-    flujoAgente,
-    flowConsulta,
     flujoUbicacion,
     flujoPagos,
-    flujoSaludo,
+    flujoMediosEntrega,
+    flujoPagoShopify,
+    // SERVICIOS
+    flujoMontajeComputadoras,
+    flujoServicioTecnico,
+    flujoVentaProductos,
+    flujoMantenimiento,
+    flujoCCTV,
+    flowConsulta,
+    flujoResumenPedido,
+    flujoDespedida,
+    flowImagenProducto,
+    flujoEncuesta
 
   ]);
   const adapterProvider = createProvider(BaileysProvider);
@@ -65,13 +75,7 @@ const main = async () => {
     flow: adapterFlow,
     provider: adapterProvider,
     database: adapterDB,
-  },
-  {
-    globalState: {
-    encendido: true,
-  }
-   }
-  );
+  });
 };
 
 module.exports = {

@@ -3,6 +3,9 @@ const { flujoDespedida } = require("./flujoDespedida");
 const { flujoConsultaProducto, flowConsulta2 } = require("./flujoConsulta");
 const { flujoRespuesta } = require("./flujoRespuesta");
 const { flujoEncuesta } = require("./flujoEncuesta");
+const { getClienteByTelephone, createCliente } = require("../services/cliente.service");
+
+let CLIENTE;
 
 // FLUJO VENTA
 
@@ -44,10 +47,13 @@ const flujoVentaProductos = addKeyword(keywordsVentaProductos)
 const keywordsCCTV = [
   "cámaras de seguridad",
   "CCTV",
+  "cctv",
   "instalación",
   "cámas de seguridad",
   "cámaras de seguridád",
   "camaras de segurida",
+  "camaras",
+  "camara",
   "CCT",
   "CC TV",
   "CCVT",
@@ -56,11 +62,8 @@ const keywordsCCTV = [
   "instalasión",
   "instalació",
 ];
-const answerCCTV1 = [
-  `Sí, ofrecemos servicios de instalación de cámaras de seguridad (CCTV)
-  Nuestro equipo de expertos puede instalar sistemas de cámaras de seguridad para proteger tu hogar o negocio.`,
-];
-const answerCCTV2 = ["¿En qué tipo de instalación estás interesado?"];
+const answerCCTV1 = ["Sí, ofrecemos servicios de instalación de cámaras de seguridad (CCTV)",];
+const answerCCTV2 = ["Me podrias dar más detalles, para registrar en la orden de servicio por favor!"];
 const flujoCCTV = addKeyword(keywordsCCTV)
   .addAnswer(answerCCTV1, { delay: 2000 })
   .addAnswer(
@@ -70,6 +73,17 @@ const flujoCCTV = addKeyword(keywordsCCTV)
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
       const mensajeRecibido = ctx.body;
+      const cliente = await getClienteByTelephone(ctx.from);
+
+    if(!cliente){
+      CLIENTE = await createCliente({
+        name: ctx.pushName,
+        telephone: ctx.from,
+      });
+    }
+    CLIENTE = cliente
+    console.log('CLIENTE VERIFICADO',CLIENTE);
+
       // TODO> guardar peticion
       console.log("esto es un pedido", mensajeRecibido);
       flowDynamic(
@@ -105,7 +119,7 @@ const answerMantenimiento2 = [
 	Podemos programar revisiones periódicas para garantizar un rendimiento óptimo.`,
 ];
 const answerMantenimiento3 = [
-  "¿Estás interesado en nuestros servicios de mantenimiento preventivo?",
+  "Me podrias explicar mejor, asi registro la orden de servicio",
 ];
 const flujoMantenimiento = addKeyword(keywordsMantenimiento)
   .addAnswer(answerMantenimiento1, { delay: 2000 })
@@ -117,6 +131,17 @@ const flujoMantenimiento = addKeyword(keywordsMantenimiento)
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
       const mensajeRecibido = ctx.body;
+      const cliente = await getClienteByTelephone(ctx.from);
+
+    if(!cliente){
+      CLIENTE = await createCliente({
+        name: ctx.pushName,
+        telephone: ctx.from,
+      });
+    }
+    CLIENTE = cliente
+    console.log('CLIENTE VERIFICADO',CLIENTE);
+
       // TODO> guardar peticion
       console.log("esto es un pedido", mensajeRecibido);
       flowDynamic(
@@ -161,6 +186,17 @@ const flujoMontajeComputadoras = addKeyword(keyMontaje)
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
       const mensajeRecibido = ctx.body;
+      const cliente = await getClienteByTelephone(ctx.from);
+
+    if(!cliente){
+      CLIENTE = await createCliente({
+        name: ctx.pushName,
+        telephone: ctx.from,
+      });
+    }
+    CLIENTE = cliente
+    console.log('CLIENTE VERIFICADO',CLIENTE);
+
       // TODO> guardar peticion
       console.log("esto es un pedido", mensajeRecibido);
       flowDynamic(
@@ -197,12 +233,23 @@ const flujoServicioTecnico = addKeyword(keySoporte)
     { delay: 2000 }
   )
   .addAnswer(
-    "¿En qué tipo de servicio técnico estás interesado?",
+    "Me podrias explicar mejor el problema",
     { capture: true, delay: 2000 },
     async (ctx, { flowDynamic, gotoFlow }) => {
       // console.log(ctx);
       const numeroDeWhatsapp = ctx.from;
       const mensajeRecibido = ctx.body;
+      const cliente = await getClienteByTelephone(ctx.from);
+
+    if(!cliente){
+      CLIENTE = await createCliente({
+        name: ctx.pushName,
+        telephone: ctx.from,
+      });
+    }
+    CLIENTE = cliente
+    console.log('CLIENTE VERIFICADO',CLIENTE);
+
       // TODO> guardar peticion
       console.log("esto es un pedido", mensajeRecibido);
       flowDynamic(
@@ -253,4 +300,9 @@ const flujoServicios = addKeyword(keywords)
 
 module.exports = {
   flujoServicios,
+  flujoMontajeComputadoras,
+  flujoServicioTecnico,
+  flujoVentaProductos,
+  flujoMantenimiento,
+  flujoCCTV,
 };

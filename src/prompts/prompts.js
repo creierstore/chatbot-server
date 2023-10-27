@@ -6,6 +6,11 @@ const promptIntencion = (message) => {
     - flujoDespedida
     - flujoPedido
     - flujoPagos
+    - flujoMontajeComputadoras
+    - flujoServicioTecnico
+    - flujoVentaProductos
+    - flujoMantenimiento
+    - flujoCCTV (instalacion de camaras de seguridad)
     - flujoRecomendacion (para productos)
     - flujoServicios (se refiere a problemas tecnicos)
     Detecta a cuál de estos flujos debería ir el usuario después de escribir:
