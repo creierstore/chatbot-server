@@ -54,8 +54,23 @@ const promptProductos = (message) => {
     `;
 };
 
+const promptSeleccionProducto = (message, productos) => {
+  return  `
+  De acuerdo al siguiente objeto JSON 
+
+  ${productos}
+
+quiero que identifiques el producto que se adecue a la peticion que un usuario realiza y devuelve nuevamente el objeto que cumpla mejor con el mensaje. 
+SOLO vas a devolver el objeto SIEMPRE dentro de un array, omitiras responder con cualquier aclaracion, explicacion o respuesta, SOLO tienes permitido responder con el objeto nada mas.
+
+Este es el mensaje del usuario: ${message}
+  `
+
+}
+
 module.exports = {
   promptIntencion,
   promptPedido,
   promptProductos,
+  promptSeleccionProducto
 };

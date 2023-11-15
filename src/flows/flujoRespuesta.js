@@ -8,7 +8,7 @@ const keywords = ["respuesta"];
 const flujos = [flujoDespedida];
 
 const response = [
-	"No le he entendido, disculpe.",
+	"Le puedo ayudar con alguna otra cosa?",
 ];
 
 const flujoRespuesta = addKeyword(keywords).addAnswer(response, null, null, flujos);

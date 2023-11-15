@@ -39,6 +39,7 @@ const { flowConsulta, flujoResumenPedido } = require("./src/flows/flowQuery");
 const { flujoDespedida } = require("./src/flows/flujoDespedida");
 const { flowImagenProducto } = require("./src/flows/flujoPedido");
 const { flujoEncuesta } = require("./src/flows/flujoEncuesta");
+const { flujoRespuesta } = require("./src/flows/flujoRespuesta");
 
 
 const main = async () => {
@@ -46,7 +47,8 @@ const main = async () => {
   const adapterFlow = createFlow([
     // FLUJOS DE EVENTOS
     flujoBienvenida,
-    flujoRecibirUbicacion,    
+    flujoRecibirUbicacion,
+    flujoRespuesta,    
     // FLUJOS
     // flujoConsulta,
     flujoEnvio,
